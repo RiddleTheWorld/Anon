@@ -154,8 +154,6 @@ dotnet build -c Release
 
 The plugin ends up in `Anon/bin/x64/Release/`. To try a local build, add the full path to `Anon.dll` under Dev Plugin Locations in `/xlsettings` (Experimental tab), then enable it in `/xlplugins`.
 
-To publish a release, push a version tag such as `v1.0.1`. GitHub Actions builds it and attaches the plugin zip to a release.
-
 ## License
 
 AGPL-3.0, see [LICENSE.md](LICENSE.md).
