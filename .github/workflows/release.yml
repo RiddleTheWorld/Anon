@@ -1,0 +1,73 @@
+---
+name: Release Anon
+
+"on":
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+
+  release:
+    runs-on: windows-2022
+
+    env:
+      DALAMUD_URL: https://goatcorp.github.io/dalamud-distrib/latest.zip
+      DALAMUD_DIR: XIVLauncher\addon\Hooks\dev
+      TEST_FILTER: FullyQualifiedName!~LookOptionsTests
+      OUT: .\Anon\bin\x64\Release\Anon
+      TAG: ${{ github.ref_name }}
+      REPO: ${{ github.repository }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Download Dalamud
+        run: |
+          Invoke-WebRequest -Uri $env:DALAMUD_URL -OutFile latest.zip
+          Expand-Archive -Force latest.zip "$env:AppData\$env:DALAMUD_DIR"
+
+      - name: Build with dotnet
+        run: |
+          $version = $env:TAG.TrimStart('v')
+          dotnet build --configuration Release -p:Version=$version
+
+      - name: Run tests
+        run: >-
+          dotnet test --configuration Release --no-build
+          --filter "$env:TEST_FILTER"
+
+      - name: Write repo.json
+        run: |
+          $m = Get-Content "$env:OUT\Anon.json" -Raw | ConvertFrom-Json
+          $zip = "https://github.com/$env:REPO/releases/download/" +
+                 "$env:TAG/latest.zip"
+          $extra = [ordered]@{
+            DownloadLinkInstall = $zip
+            DownloadLinkUpdate = $zip
+            DownloadLinkTesting = $zip
+            IsHide = $false
+            IsTestingExclusive = $false
+            LastUpdate = [DateTimeOffset]::UtcNow.ToUnixTimeSeconds()
+          }
+          foreach ($k in $extra.Keys) {
+            $m | Add-Member -NotePropertyName $k -NotePropertyValue $extra[$k]
+          }
+          ConvertTo-Json -InputObject @($m) -Depth 5 |
+            Set-Content "$env:OUT\repo.json" -Encoding utf8NoBOM
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create $env:TAG
+          "$env:OUT\latest.zip" "$env:OUT\repo.json"
+          --title "Anon $env:TAG" --generate-notes

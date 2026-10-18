@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <IsPackable>false</IsPackable>
+    <DalamudLibPath>$(AppData)\XIVLauncher\addon\Hooks\dev\</DalamudLibPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Anon\ChatNames.cs" Link="ChatNames.cs" />
+    <Compile Include="..\Anon\LookOptions.cs" Link="LookOptions.cs" />
+    <Compile Include="..\Anon\Names.cs" Link="Names.cs" />
+    <Compile Include="..\Anon\SavedLooks.cs" Link="SavedLooks.cs" />
+    <Compile Include="..\Anon\ExtrasPlan.cs" Link="ExtrasPlan.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Lumina" HintPath="$(DalamudLibPath)Lumina.dll" />
+    <Reference Include="Lumina.Excel" HintPath="$(DalamudLibPath)Lumina.Excel.dll" />
+    <Reference Include="Microsoft.Extensions.ObjectPool" HintPath="$(DalamudLibPath)Microsoft.Extensions.ObjectPool.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+</Project>

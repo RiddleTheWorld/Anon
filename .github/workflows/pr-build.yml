@@ -1,0 +1,46 @@
+---
+name: PR Builder for Anon
+
+"on":
+  pull_request:
+    branches: [main]
+
+jobs:
+
+  build:
+    runs-on: windows-2022
+
+    env:
+      DALAMUD_URL: https://goatcorp.github.io/dalamud-distrib/latest.zip
+      DALAMUD_DIR: XIVLauncher\addon\Hooks\dev
+      TEST_FILTER: FullyQualifiedName!~LookOptionsTests
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+
+      - name: Install .NET
+        uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Download Dalamud
+        run: |
+          Invoke-WebRequest -Uri $env:DALAMUD_URL -OutFile latest.zip
+          Expand-Archive -Force latest.zip "$env:AppData\$env:DALAMUD_DIR"
+
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+
+      - name: Run tests
+        run: >-
+          dotnet test --configuration Release --no-build
+          --filter "$env:TEST_FILTER"
+
+      - name: Store artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: Anon
+          path: .\Anon\bin\x64\Release\Anon\*
+          if-no-files-found: error
+          retention-days: 1

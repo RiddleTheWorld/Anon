@@ -1,0 +1,13 @@
+.vs/
+.idea/
+.vscode/
+obj/
+bin/
+*.user
+*.suo
+*.userprefs
+*.DotSettings.user
+.DS_Store
+Thumbs.db
+artifacts/
+*.zip

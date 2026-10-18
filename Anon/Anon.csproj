@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Dalamud.NET.Sdk/15.0.0">
+  <PropertyGroup>
+    <Version>1.0.0.0</Version>
+    <Author>Liam</Author>
+    <Name>Anon</Name>
+    <Punchline>Random look and name for everyone, client-side.</Punchline>
+    <Description>Replaces the appearance and name of you and nearby players with random ones, only on your screen. Also saves looks and glamour to put on anyone, and can write lines into your own chat log. Nothing is sent to the server; other players never see any of it.</Description>
+    <Tags>privacy;roleplay;streamer;names;appearance</Tags>
+    <RepoUrl>https://github.com/RiddleTheWorld/Anon</RepoUrl>
+  </PropertyGroup>
+</Project>

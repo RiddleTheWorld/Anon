@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Anon/Anon.csproj">
+    <Platform Project="x64" />
+  </Project>
+  <Project Path="Anon.Tests/Anon.Tests.csproj" />
+</Solution>
