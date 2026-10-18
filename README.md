@@ -8,15 +8,11 @@ It only changes what your game draws. Nothing is sent to the server and nobody e
 
 ## Install
 
-1. Type `/xlsettings` in game and open the Experimental tab.
-2. Under Custom Plugin Repositories, add this link, tick Enabled and press Save:
-
-   ```
-   https://github.com/RiddleTheWorld/Anon/releases/latest/download/repo.json
-   ```
-
-3. Open `/xlplugins`, search for Anon and install it.
-4. Type `/anon` to open the window.
+1. Download the Anon zip from the [Releases page](https://github.com/RiddleTheWorld/Anon/releases) and extract it into a folder. Keep `Anon.dll` and `Anon.json` together.
+2. Type `/xlsettings` in game and open the Experimental tab.
+3. Under Dev Plugin Locations, add the full path to `Anon.dll` (for example `C:\Plugins\Anon\Anon.dll`), then press Save.
+4. Open `/xlplugins`, go to Dev Tools and enable Anon.
+5. Type `/anon` to open the window.
 
 ## How it works
 
@@ -158,7 +154,7 @@ dotnet build -c Release
 
 The plugin ends up in `Anon/bin/x64/Release/`. To try a local build, add the full path to `Anon.dll` under Dev Plugin Locations in `/xlsettings` (Experimental tab), then enable it in `/xlplugins`.
 
-To publish a release, push a version tag such as `v1.0.1`. GitHub Actions builds it and attaches the files people install from.
+To publish a release, push a version tag such as `v1.0.1`. GitHub Actions builds it and attaches the plugin zip to a release.
 
 ## License
 
